@@ -4,6 +4,10 @@
 # Create settings.cfg and updated your settings
 # --------------------------------------------------------
 
+# General settings
+DISABLED=true			# Disable Script from run (for maintaince)
+WRITE_CHANGES=false		# Test mode (no hard-disk writes)
+
 # Backup Options
 BACKUP_USERFILES=true
 BACKUP_MYSQL=true
@@ -28,6 +32,3 @@ tempdir=$workdir/temp			# temporary folder
 backupdir=$workdir/backup		# place for the .gz files
 filename=backup-$(date +%y%m%d).tgz	# backup .tgz file-name
 showfsz=true				# Show df -h at end
-
-
-

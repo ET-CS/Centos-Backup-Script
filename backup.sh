@@ -7,14 +7,6 @@
 # root access required.
 # --------------------------------------------------------
 
-SCRIPT_VERSION="0.3"
-
-# General settings
-DISABLED=false			# Disable Script from run (for maintaince)
-WRITE_CHANGES=false		# Test mode (no hard-disk writes)
-
-# ---------------- Start Backup -------------------------------------------
-
 function checkLists {
     if ! [ -f $listfile ] ; then
         echo "Missing DB Listfile. create $listfile"
@@ -155,9 +147,8 @@ function startBackup {
     fi;
 }
 
-
 # Intro
-echo "Copyright(c) 2002-2003 Backup script. v$SCRIPT_VERSION - by Ravemaker & ET"
+echo "Copyright(c) 2002-2003 Backup script. - by Ravemaker & ET"
 # Load settings
 if [ -f settings.cfg ] ; then
     echo "Loading settings..."
