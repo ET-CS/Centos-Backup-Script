@@ -11,6 +11,16 @@ by [RaveMaker][RaveMaker] & [ET][ET].
 How to use
 ----------
 
+create db.lst & folders.lst inside the lst folder.
+
+db.lst > example of db.lst file - one db name at row:
+mydatabase1
+mydatabase2
+mydatabase3
+
+folders.lst > example of folders.lst file - list of all folders to backup:
+/var/tmp/ /var/www/ /usr/files/ /tftpd/
+
 ### Using Git
 Clone this script from github:
     git clone https://github.com/ET-CS/Centos-Backup-Script.git

@@ -11,9 +11,20 @@ SCRIPT_VERSION="0.3"
 
 # General settings
 DISABLED=false			# Disable Script from run (for maintaince)
-WRITE_CHANGES=true		# Test mode (no hard-disk writes)
+WRITE_CHANGES=false		# Test mode (no hard-disk writes)
 
 # ---------------- Start Backup -------------------------------------------
+
+function checkLists {
+    if ! [ -f $listfile ] ; then
+        echo "Missing DB Listfile. create $listfile"
+        exit
+    fi;
+    if ! [ -f $backuplistfile ] ; then
+        echo "Missing backup Listfile. create $backuplistfile"
+        exit
+    fi;
+}
 
 function checkBackupStatus {
     if $BACKUP_DAILY_ONLY_ONCE ; then
@@ -121,6 +132,7 @@ function startBackup {
         echo "Skipping backup - script disabled"
         exit
     else
+        checkLists
         checkBackupStatus
         if $WRITE_CHANGES ; then
             echo "Starting Backup..."
