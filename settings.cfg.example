@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# --------------------------------------------------------
+# Create settings.cfg and updated your settings
+# --------------------------------------------------------
+
+# Backup Options
+BACKUP_USERFILES=true
+BACKUP_MYSQL=true
+BACKUP_COPIES=6
+BACKUP_DAILY_ONLY_ONCE=true		# Allow only one backup per day
+
+# wrapper folder for all script files/folders.
+# affecting this will recursivly change the folders for all following settings.
+# ex. by default, backup destination is in folder /backup inside workdir.
+workdir=/scripts
+
+# backup source settings
+listfile=$workdir/lst/db.lst		# list of httpd databases to backup
+backuplistfile=$workdir/lst/folders.lst	# list of httpd databases to backup
+
+# SQL settings
+SQL_USER="user"				# MYSQL User
+SQL_PASSWD="password"			# MYSQL Password
+
+# output settings
+tempdir=$workdir/temp			# temporary folder
+backupdir=$workdir/backup		# place for the .gz files
+filename=backup-$(date +%y%m%d).tgz	# backup .tgz file-name
+showfsz=true				# Show df -h at end
+
+
+
