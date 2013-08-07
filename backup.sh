@@ -150,6 +150,8 @@ function startBackup {
 # Intro
 echo "Copyright(c) 2002-2003 Backup script. - by Ravemaker & ET"
 # Load settings
+SCRIPTDIRECTORY=$(cd `dirname $0` && pwd)
+cd $SCRIPTDIRECTORY
 if [ -f settings.cfg ] ; then
     echo "Loading settings..."
     source settings.cfg
