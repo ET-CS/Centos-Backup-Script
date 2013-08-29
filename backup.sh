@@ -148,7 +148,7 @@ function startBackup {
 }
 
 # Intro
-echo "Copyright(c) 2002-2003 Backup script. - by Ravemaker & ET"
+echo "Copyright(c) 2013 Backup script. - by Ravemaker & ET"
 # Load settings
 SCRIPTDIRECTORY=$(cd `dirname $0` && pwd)
 cd $SCRIPTDIRECTORY
