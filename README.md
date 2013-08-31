@@ -1,6 +1,5 @@
 Centos-Backup-Script
 ====================
-by [RaveMaker][RaveMaker] & [ET][ET].
 
 The purpose of this script is to create daily backup archives (`tar.gz`) of selected directories/files and/or MYSQL dumps.
 
@@ -93,8 +92,7 @@ By default, the script is disabled **and** set in test-mode (NO BACKUP).
 ### Setup cron
 Setup cron to run your script daily (or at any timing you want).
 
-### Known Issues
 
-
+by [RaveMaker][RaveMaker] & [ET][ET].
 [RaveMaker]: http://ravemaker.net
 [ET]: http://etcs.me
