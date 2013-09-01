@@ -1,10 +1,9 @@
 Centos-Backup-Script
 ====================
-by [RaveMaker][RaveMaker] & [ET][ET].
 
-This script purpose is to create daily backup archives (`tar.gz`) of selected directories/files and/or MYSQL dumps.
+The purpose of this script is to create daily backup archives (`tar.gz`) of selected directories/files and/or MYSQL dumps.
 
-> NOTE: This script is in intended for expert users, 
+> NOTE: This script is intended for expert users, 
 please read carefully the script and the instructions and use it at your own risk.
 
 This script support:
@@ -13,8 +12,8 @@ This script support:
 * Backup selected MySQL Databases dump.
 * Compress and archive all into one `.tar.gz` file.
 * Create .tgz in a backup folder for each backup session.
-* Delete older backups and keep only the last backups (6 by default).
-* Save each backup session in different directory (/backup/0 .. backup/6).
+* Delete older backups and keep only the latest backups (6 by default).
+* Save each backup archive in a different directory (/backup/0 .. backup/6).
 
 > root access may be required to run this script.
 
@@ -37,21 +36,21 @@ Documentation
 
 		workdir=/scripts
 
-	> `workdir` is the folder the script using to save the temporary files & the backups inside.
+	> `workdir` is the path of the temporary files & backups.
 
 4. Create `/backup` folder inside your `workdir` folder. 
 
 ### Configure backups
 Create `/lst` folder inside the `workdir` and put inside two files: `db.lst` & `folders.lst`.
 
-you can set manually the location of those files manully by changing the settings inside settings.cfg:
+you can manually set the location of those files by changing the settings inside settings.cfg:
 		
 		# list of databases to backup		
 		listfile=$workdir/lst/db.lst
 		# list of folders/files to backup
 		backuplistfile=$workdir/lst/folders.lst
 
-The script read `listfile` for MySQL databases to backup and `backuplistfile` for directories/files to backup.
+The script reads `listfile` for MySQL databases list to backup and `backuplistfile` for directories/files to backup.
 
 #### Example
 
@@ -66,7 +65,7 @@ The script read `listfile` for MySQL databases to backup and `backuplistfile` fo
 		/var/log/ /var/www/ /usr/files/ /tftpd/
 
 ### How backup files are saved
-all backups are saved by default i0nside your `workdir`/backup folder. each backup inside seperate subdirectory.
+all backups are saved by default inside your `workdir`/backup folder. each backup inside a seperate subdirectory.
 
 * by default, the script saves 6 older backups. this can be changed using the `BACKUP_COPIES` settings (inside settings.cfg).
 * first backup will be saved at /$workdir/backup/0
@@ -80,21 +79,20 @@ you can set the backup destination to another folder by manually editing the `ba
 > Currently, 	The /backup folder existence check not made. you have to create this folder manually inside the `workdir` (as explained in Installation / Step 4):
 
 ### Enable script
-By default, the script is disabled **and** set in testmode (no actual HD writes). 
+By default, the script is disabled **and** set in test-mode (NO BACKUP). 
 
-1. To enable the script you need to change in your settings.cfg file:
+1. To enable the script you need to edit your settings.cfg file and change DISABLED to:
 
 		DISABLED=false
 
-2. Configure the settings; Test the script in your environment in testmode and  verify using the console output that everything is ok. disable testmode by change the setting inside your settings.cfg:
+2. Configure the settings, Test the script in your environment in testmode and verify using the console output that everything is ok. disable testmode by changing the setting inside your settings.cfg:
  
 		WRITE_CHANGES=true
 
 ### Setup cron
 Setup cron to run your script daily (or at any timing you want).
 
-### Known Issues
 
-
+by [RaveMaker][RaveMaker] & [ET][ET].
 [RaveMaker]: http://ravemaker.net
 [ET]: http://etcs.me
