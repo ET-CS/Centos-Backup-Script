@@ -1,6 +1,12 @@
 #!/bin/bash
 # --------------------------------------------------------
-# Centos-Server-Backup-Script. by Ravemaker & ET.
+# Centos-Server-Backup-Script.
+#
+#
+# by RaveMaker & ET 
+# http://ravemaker.net 
+# http://etcs.me
+#
 # this script backup important files from your system:
 # system files, db files, user files, services, etc.,
 # and create .tgz in a backup folder for each backup session.
