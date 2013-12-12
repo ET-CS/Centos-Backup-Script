@@ -30,5 +30,5 @@ SQL_PASSWD="password"			# MYSQL Password
 # output settings
 tempdir=$workdir/temp			# temporary folder
 backupdir=$workdir/backup		# place for the .gz files
-filename=backup-$(date +%y%m%d).tgz	# backup .tgz file-name
+filename=backup-$(date +%Y%m%d).tgz	# backup .tgz file-name
 showfsz=true				# Show df -h at end
