@@ -74,7 +74,7 @@ function shiftBackups {
 function dumpSQL {
     printf "Regenerating DB list file.. ";
     if $WRITE_CHANGES ; then
-        mysql -u $SQL_USER -p$SQL_PASSWD -Bse 'show databases' > $listfile        
+        mysql -u $SQL_USER -p$SQL_PASSWD -Bse 'show databases' > $listfile
         printf "Dumping SQL Databases.. ";
         cat $listfile | while read line
         do
