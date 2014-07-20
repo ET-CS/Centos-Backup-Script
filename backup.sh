@@ -14,10 +14,10 @@
 # --------------------------------------------------------
 
 function checkLists {
-    if ! [ -f $listfile ] ; then
-        echo "Missing DB Listfile. create $listfile"
-        exit
-    fi;
+    #if ! [ -f $listfile ] ; then
+    #    echo "Missing DB Listfile. create $listfile"
+    #    exit
+    #fi;
     if ! [ -f $backuplistfile ] ; then
         echo "Missing backup Listfile. create $backuplistfile"
         exit
