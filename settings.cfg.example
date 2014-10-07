@@ -5,7 +5,7 @@
 # --------------------------------------------------------
 
 # General settings
-DISABLED=true			# Disable Script from run (for maintaince)
+DISABLED=false			# Disable Script from run
 WRITE_CHANGES=false		# Test mode (no hard-disk writes)
 
 # Backup Options
@@ -17,7 +17,7 @@ BACKUP_DAILY_ONLY_ONCE=true		# Allow only one backup per day
 # wrapper folder for all script files/folders.
 # affecting this will recursivly change the folders for all following settings.
 # ex. by default, backup destination is in folder /backup inside workdir.
-workdir=`pwd`
+workdir=/scripts
 
 # backup source settings
 listfile=$workdir/lst/db.lst		# list of httpd databases to backup
