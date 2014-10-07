@@ -42,27 +42,11 @@ Documentation
 
 4. Create `/backup` folder inside your `workdir` folder. 
 
+5. Edit the settings files and update with your mysql user/password
+
 ### Configure backups
-Create `/lst` folder inside the `workdir` and put inside two files: `db.lst` & `folders.lst`.
-
-you can manually set the location of those files by changing the settings inside settings.cfg:
-		
-		# list of databases to backup		
-		listfile=$workdir/lst/db.lst
-		# list of folders/files to backup
-		backuplistfile=$workdir/lst/folders.lst
-
-The script reads `listfile` for MySQL databases list to backup and `backuplistfile` for directories/files to backup.
-
-#### Example
-
-1. **db.lst** - Fill one MySQL database name at a row:
-
-		mydatabase1
-		mydatabase2
-		mydatabase3
-
-2. **folders.lst** - Input list of all folders to backup in one row:
+Create file inside the `/lst` folder called `folders.lst`.
+The script reads for directories/files to backup. Input list of all folders to backup in one row:
 
 		/var/log/ /var/www/ /usr/files/ /tftpd/
 
@@ -81,13 +65,9 @@ you can set the backup destination to another folder by manually editing the `ba
 > Currently, 	The /backup folder existence check not made. you have to create this folder manually inside the `workdir` (as explained in Installation / Step 4):
 
 ### Enable script
-By default, the script is disabled **and** set in test-mode (NO BACKUP). 
+By default, the script is set in test-mode (NO BACKUP). 
 
-1. To enable the script you need to edit your settings.cfg file and change DISABLED to:
-
-		DISABLED=false
-
-2. Configure the settings, Test the script in your environment in testmode and verify using the console output that everything is ok. disable testmode by changing the setting inside your settings.cfg:
+1. Configure the settings, Test the script in your environment in testmode and verify using the console output that everything is ok. disable testmode by changing the setting inside your settings.cfg:
  
 		WRITE_CHANGES=true
 
