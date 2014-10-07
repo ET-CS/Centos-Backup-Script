@@ -34,7 +34,8 @@ Documentation
 
 	    cp settings.cfg.example settings.cfg
 
-3. Edit the settings files and update with your mysql user/password
+	and update your mysql user/password inside.
+	update also the `workdir` folder to the location of this script
 
 ### Configure backups
 Create file inside the `/lst` folder called `folders.lst`.
