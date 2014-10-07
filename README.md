@@ -72,6 +72,13 @@ By default, the script is set in test-mode (NO BACKUP).
 ### Setup cron
 Setup cron to run your script daily (or at any timing you want).
 
+for example:
+
+	    crontab -e
+
+add inside:
+
+	    0 0 * * * /scripts/Centos-Backup-Script/backup.sh
 
 by [RaveMaker][RaveMaker] & [ET][ET].
 [RaveMaker]: http://ravemaker.net
