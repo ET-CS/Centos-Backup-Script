@@ -34,15 +34,7 @@ Documentation
 
 	    cp settings.cfg.example settings.cfg
 
-3. Create `/scripts` folder or change the `workdir` setting (inside settings.cfg) to a valid existing folder:
-
-		workdir=/scripts
-
-	> `workdir` is the path of the temporary files & backups.
-
-4. Create `/backup` folder inside your `workdir` folder. 
-
-5. Edit the settings files and update with your mysql user/password
+3. Edit the settings files and update with your mysql user/password
 
 ### Configure backups
 Create file inside the `/lst` folder called `folders.lst`.
