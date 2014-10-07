@@ -62,8 +62,6 @@ all backups are saved by default inside your `workdir`/backup folder. each backu
 
 you can set the backup destination to another folder by manually editing the `backupdir` setting. 
 
-> Currently, 	The /backup folder existence check not made. you have to create this folder manually inside the `workdir` (as explained in Installation / Step 4):
-
 ### Enable script
 By default, the script is set in test-mode (NO BACKUP). 
 
