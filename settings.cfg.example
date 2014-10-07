@@ -17,7 +17,7 @@ BACKUP_DAILY_ONLY_ONCE=true		# Allow only one backup per day
 # wrapper folder for all script files/folders.
 # affecting this will recursivly change the folders for all following settings.
 # ex. by default, backup destination is in folder /backup inside workdir.
-workdir=/scripts
+workdir=/scripts/Centos-Backup-Script
 
 # backup source settings
 listfile=$workdir/lst/db.lst		# list of httpd databases to backup

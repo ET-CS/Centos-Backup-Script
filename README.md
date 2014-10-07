@@ -24,6 +24,8 @@ Documentation
 
 1. Clone this script from github:
 
+	    mkdir /scripts
+	    cd /scripts
 	    git clone https://github.com/ET-CS/Centos-Backup-Script.git
 
 	or copy the files manually to your prefered directory.
