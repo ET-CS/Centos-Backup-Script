@@ -33,7 +33,7 @@ function checkBackupStatus {
     fi;
     if [ -d $tempdir ] ; then
         echo ""
-        echo "Backup is running."
+        echo "Backup is already running. remove temp folder to reset."
         exit;
     fi;
 }
