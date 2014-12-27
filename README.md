@@ -24,6 +24,8 @@ Documentation
 
 1. Clone this script from github:
 
+	    mkdir /scripts
+	    cd /scripts
 	    git clone https://github.com/ET-CS/Centos-Backup-Script.git
 
 	or copy the files manually to your prefered directory.
@@ -32,35 +34,12 @@ Documentation
 
 	    cp settings.cfg.example settings.cfg
 
-3. Create `/scripts` folder or change the `workdir` setting (inside settings.cfg) to a valid existing folder:
-
-		workdir=/scripts
-
-	> `workdir` is the path of the temporary files & backups.
-
-4. Create `/backup` folder inside your `workdir` folder. 
+	and update your mysql user/password inside.
+	update also the `workdir` folder to the location of this script
 
 ### Configure backups
-Create `/lst` folder inside the `workdir` and put inside two files: `db.lst` & `folders.lst`.
-
-you can manually set the location of those files by changing the settings inside settings.cfg:
-		
-		# list of databases to backup		
-		listfile=$workdir/lst/db.lst
-		# list of folders/files to backup
-		backuplistfile=$workdir/lst/folders.lst
-
-The script reads `listfile` for MySQL databases list to backup and `backuplistfile` for directories/files to backup.
-
-#### Example
-
-1. **db.lst** - Fill one MySQL database name at a row:
-
-		mydatabase1
-		mydatabase2
-		mydatabase3
-
-2. **folders.lst** - Input list of all folders to backup in one row:
+Create file inside the `/lst` folder called `folders.lst`.
+The script reads for directories/files to backup. Input list of all folders to backup in one row:
 
 		/var/log/ /var/www/ /usr/files/ /tftpd/
 
@@ -76,22 +55,23 @@ all backups are saved by default inside your `workdir`/backup folder. each backu
 
 you can set the backup destination to another folder by manually editing the `backupdir` setting. 
 
-> Currently, 	The /backup folder existence check not made. you have to create this folder manually inside the `workdir` (as explained in Installation / Step 4):
-
 ### Enable script
-By default, the script is disabled **and** set in test-mode (NO BACKUP). 
+By default, the script is set in test-mode (NO BACKUP). 
 
-1. To enable the script you need to edit your settings.cfg file and change DISABLED to:
-
-		DISABLED=false
-
-2. Configure the settings, Test the script in your environment in testmode and verify using the console output that everything is ok. disable testmode by changing the setting inside your settings.cfg:
+1. Configure the settings, Test the script in your environment in testmode and verify using the console output that everything is ok. disable testmode by changing the setting inside your settings.cfg:
  
 		WRITE_CHANGES=true
 
 ### Setup cron
 Setup cron to run your script daily (or at any timing you want).
 
+for example:
+
+	    crontab -e
+
+add inside:
+
+	    0 0 * * * /scripts/Centos-Backup-Script/backup.sh
 
 by [RaveMaker][RaveMaker] & [ET][ET].
 [RaveMaker]: http://ravemaker.net

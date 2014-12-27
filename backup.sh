@@ -14,10 +14,13 @@
 # --------------------------------------------------------
 
 function checkLists {
+<<<<<<< HEAD
     #if ! [ -f $listfile ] ; then
     #    echo "Missing DB Listfile. create $listfile"
     #    exit
     #fi;
+=======
+>>>>>>> cf79608551533b58a28a7b38b6541e9d4493aeea
     if ! [ -f $backuplistfile ] ; then
         echo "Missing backup Listfile. create $backuplistfile"
         exit
@@ -33,7 +36,7 @@ function checkBackupStatus {
     fi;
     if [ -d $tempdir ] ; then
         echo ""
-        echo "Backup is running."
+        echo "Backup is already running. remove temp folder to reset."
         exit;
     fi;
 }
