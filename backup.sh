@@ -166,6 +166,6 @@ startBackup
 # Final
 echo
 if $showfsz ; then
-    df -h /dev/sda
+    df -h
 fi;
 echo "All done"
