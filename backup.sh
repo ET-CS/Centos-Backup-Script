@@ -96,9 +96,14 @@ function createBackup {
         cat $backuplistfile | while read line
         do
             echo "Creating TGZ Backup file";
-            tar zcfP $tempdir/$filename $tempdir/*.sql $line > $workdir/log/$filename
+            for d in $line*/; do
+        	dname=${d%/}
+        	dname=${dname#$line}
+        	tar zcfP $tempdir/$dname.$filename $d > $workdir/log/$filename
+            done
             break
         done
+        tar zcfP $tempdir/db.$filename $tempdir/*.sql > $workdir/log/db.$filename
     fi;
 }
 
@@ -106,7 +111,8 @@ function moveBackup {
     printf "Move from temp to Backup Number 0.. ";
     if $WRITE_CHANGES ; then
         mkdir $backupdir/0/
-        mv $tempdir/$filename $backupdir/0/ ;
+        #mv $tempdir/$filename $backupdir/0/ ;
+        mv $tempdir/*$filename $backupdir/0/ ;
         printf "Ok\n"
     else printf "Skipping\n"
     fi;
