@@ -92,17 +92,22 @@ function dumpSQL {
 }
 
 function createBackup {
-    if $WRITE_CHANGES ; then
-        cat $backuplistfile | while read line
-        do
-            echo "Creating TGZ Backup file";
-            for d in $line*/; do
-        	dname=${d%/}
-        	dname=${dname#$line}
-        	tar zcfP $tempdir/$dname.$filename $d > $workdir/log/$filename
+    echo "Creating TGZ Backup file for..";
+    echo "directories:"
+    cat $backuplistfile | while read line
+    do
+        for d in $line; do
+    	    echo $d
+    	    # take target directory to backup and replace / with _ for backup filename
+    	    target_backup_file=$tempdir/${d//[\/]/_}$filename
+    	    if $WRITE_CHANGES ; then
+        	tar zcfP $target_backup_file $d > $workdir/log/$filename
+    	    fi;
             done
             break
         done
+    echo "databases"
+    if $WRITE_CHANGES ; then
         tar zcfP $tempdir/db.$filename $tempdir/*.sql > $workdir/log/db.$filename
     fi;
 }
