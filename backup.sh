@@ -165,7 +165,10 @@ echo "Copyright(c) 2013 Backup script. - by Ravemaker & ET"
 # Load settings
 SCRIPTDIRECTORY=$(cd `dirname $0` && pwd)
 cd $SCRIPTDIRECTORY
-if [ -f settings.cfg ] ; then
+if [ -f /etc/backup.cfg ] ; then
+    echo "Loading settings..."
+    source /etc/backup.cfg
+elif [ -f settings.cfg ] ; then
     echo "Loading settings..."
     source settings.cfg
 else
