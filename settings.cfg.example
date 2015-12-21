@@ -31,4 +31,5 @@ SQL_PASSWD="password"			# MYSQL Password
 tempdir=$workdir/temp			# temporary folder
 backupdir=$workdir/backup		# place for the .gz files
 filename=backup-$(date +%y%m%d).tgz	# backup .tgz file-name
+logdir=/var/log/backup                  # where to store log files
 showfsz=true				# Show df -h at end
