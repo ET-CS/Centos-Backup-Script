@@ -101,14 +101,14 @@ function createBackup {
     	    # take target directory to backup and replace / with _ for backup filename
     	    target_backup_file=$tempdir/${d//[\/]/_}$filename
     	    if $WRITE_CHANGES ; then
-        	tar zcfP $target_backup_file $d > $workdir/log/$filename
+        	tar zcfP $target_backup_file $d > $logdir/$filename
     	    fi;
             done
             break
         done
     echo "databases"
     if $WRITE_CHANGES ; then
-        tar zcfP $tempdir/db.$filename $tempdir/*.sql > $workdir/log/db.$filename
+        tar zcfP $tempdir/db.$filename $tempdir/*.sql > $logdir/db.$filename
     fi;
 }
 
@@ -165,7 +165,10 @@ echo "Copyright(c) 2013 Backup script. - by Ravemaker & ET"
 # Load settings
 SCRIPTDIRECTORY=$(cd `dirname $0` && pwd)
 cd $SCRIPTDIRECTORY
-if [ -f settings.cfg ] ; then
+if [ -f /etc/backup.cfg ] ; then
+    echo "Loading settings..."
+    source /etc/backup.cfg
+elif [ -f settings.cfg ] ; then
     echo "Loading settings..."
     source settings.cfg
 else
