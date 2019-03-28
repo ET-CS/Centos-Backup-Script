@@ -75,7 +75,7 @@ function shiftBackups {
 
 function dumpSQL {
     printf "Regenerating DB list file.. ";
-    if $WRITE_CHANGES ; then
+    if $WRITE_CHANGES && $BACKUP_MYSQL ; then
         mysql -u $SQL_USER -p$SQL_PASSWD -Bse 'show databases' > $listfile
         printf "Dumping SQL Databases.. ";
         cat $listfile | while read line
@@ -100,14 +100,14 @@ function createBackup {
     	    echo $d
     	    # take target directory to backup and replace / with _ for backup filename
     	    target_backup_file=$tempdir/${d//[\/]/_}$filename
-    	    if $WRITE_CHANGES ; then
+    	    if $WRITE_CHANGES && $BACKUP_USERFILES ; then
         	tar zcfP $target_backup_file $d > $logdir/$filename
     	    fi;
             done
             break
         done
     echo "databases"
-    if $WRITE_CHANGES ; then
+    if $WRITE_CHANGES && $BACKUP_MYSQL ; then
         tar zcfP $tempdir/db.$filename $tempdir/*.sql > $logdir/db.$filename
     fi;
 }
