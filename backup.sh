@@ -101,14 +101,14 @@ function createBackup {
     	    # take target directory to backup and replace / with _ for backup filename
     	    target_backup_file=$tempdir/${d//[\/]/_}$filename
     	    if $WRITE_CHANGES && $BACKUP_USERFILES ; then
-        	tar zcfP $target_backup_file $d > $logdir/$filename
+        	tar zcfP $target_backup_file $d > $logdir/$filename.log
     	    fi;
             done
             break
         done
     echo "databases"
     if $WRITE_CHANGES && $BACKUP_MYSQL ; then
-        tar zcfP $tempdir/db.$filename $tempdir/*.sql > $logdir/db.$filename
+        tar zcfP $tempdir/db.$filename $tempdir/*.sql > $logdir/db.$filename.log
     fi;
 }
 
