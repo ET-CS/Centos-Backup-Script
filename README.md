@@ -73,7 +73,7 @@ add inside:
 
 	    0 0 * * * /scripts/Centos-Backup-Script/backup.sh
 
-by: [RaveMaker][RaveMaker] & [ET][ET].
+Authors: [RaveMaker][RaveMaker] & [ET][ET].
 
 [RaveMaker]: http://ravemaker.net
 [ET]: http://etcs.me
