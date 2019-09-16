@@ -53,6 +53,14 @@ function deleteOldestBackup {
     fi;
 }
 
+function deleteOldBackups {
+    count=$(ls -1 $backupdir | wc -l)
+    for (( c=$count; c>=$1; c-- ))
+    do
+        deleteOldestBackup $c
+    done
+}
+
 function shiftBackup {
     if [ -d $backupdir/$1/ ] ; then
         printf "Moving Number $1 to Number $2.. ";
@@ -101,7 +109,7 @@ function createBackup {
     	    # take target directory to backup and replace / with _ for backup filename
     	    target_backup_file=$tempdir/${d//[\/]/_}$filename
     	    if $WRITE_CHANGES && $BACKUP_USERFILES ; then
-        	tar zcfP $target_backup_file $d > $logdir/$filename.log
+                tar zcfP $target_backup_file $d > $logdir/$filename.log
     	    fi;
             done
             break
@@ -145,8 +153,8 @@ function startBackup {
             echo "Running in test mode..."
         fi;
         createTemporaryFolder
-        # step 1: delete oldest backup
-        deleteOldestBackup $BACKUP_COPIES
+        # step 1: delete old backups
+        deleteOldBackups $BACKUP_COPIES
         # step 2: shift the middle snapshots(s) back by one, if they exist
         shiftBackups
         # step 3: dump sql dbs
