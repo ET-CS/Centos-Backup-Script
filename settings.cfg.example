@@ -13,6 +13,7 @@ BACKUP_USERFILES=true
 BACKUP_MYSQL=true
 BACKUP_COPIES=6
 BACKUP_DAILY_ONLY_ONCE=true		# Allow only one backup per day
+BACKUP_REMOTELY=false    #Default is disabled, enable to backup to a remote windows host
 
 # wrapper folder for all script files/folders.
 # affecting this will recursivly change the folders for all following settings.
@@ -27,8 +28,16 @@ backuplistfile=$workdir/lst/folders.lst	# list of httpd databases to backup
 SQL_USER="user"				# MYSQL User
 SQL_PASSWD="password"			# MYSQL Password
 
+# Remote settings (cifs/smb)
+REMOTE_HOST="192.168.0.7"
+REMOTE_SHARE="backup"
+REMOTE_USER="remoteuser"
+REMOTE_PASS="remotepass"
+
+
 # output settings
 tempdir=$workdir/temp			# temporary folder
 backupdir=$workdir/backup		# place for the .gz files
 filename=backup-$(date +%y%m%d).tgz	# backup .tgz file-name
+unmountremote=true    #if remote backup enabled, unmount remote directory on finish
 showfsz=true				# Show df -h at end
