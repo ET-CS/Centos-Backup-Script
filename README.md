@@ -42,6 +42,27 @@ Create file inside the `/lst` folder called `folders.lst`.
 The script reads for directories/files to backup. Input list of all folders to backup in one row:
 
 		/var/log/ /var/www/ /usr/files/ /tftpd/
+### (Optional) Configure remote backup via SMB/CIFS
+*This is turned off by default.
+
+In order to enable:
+in the settings.cfg.example you'll see a setting "BACKUP_REMOTELY=false" change to true.
+
+To configure the remote host:
+In the settings.cfg.example find "#Remote settings (cifs/smb)." You'll see an example of a remote host, this is where you'll need to change the host(remote) IP of the machine, the "share" name on the PC, along with your user and pass for the remote machine.
+
+The backup will fail if these settings aren't correct and you'll need to correct what it says in the terminal before you'll be able to successfully backup.
+
+Where is the share mounted to:
+"$backupdir"
+
+How to keep the remote share mounted after backup:
+At the very bottom you'll see a setting "unmountremote=true". This is for if you'd like to keep the remote share mounted after backup is complete. Having to set to the default (true) will automatically unmount the remote share.
+
+How do you setup a SMB/CIFS share?
+You may need to enable it in the programs and features > additional features. Then you'll need to create a folder somewhere and right click > give access to > specific people. Make sure the user you're sharing access to has permissions on the folder and while in the permissions tab delete the "Everyone" permission in order to only allow the user you want to be able to access your backups. 
+
+When in doubt google it. There's a ton of info out there on this. 
 
 ### How backup files are saved
 all backups are saved by default inside your `workdir`/backup folder. each backup inside a seperate subdirectory.
