@@ -5,13 +5,13 @@
 # --------------------------------------------------------
 
 # General settings
-DISABLED=false			# Disable Script from run
-WRITE_CHANGES=false		# Test mode (no hard-disk writes)
+DISABLED=false			# Disable Script from run. Set to true to disable the backup
+WRITE_CHANGES=false		# Test mode (no hard-disk writes). Set to true to actually save the backup
 
 # Backup Options
-BACKUP_USERFILES=true
-BACKUP_MYSQL=true
-BACKUP_COPIES=6
+BACKUP_USERFILES=true			# Allow backing up files from the backuplistfile
+BACKUP_MYSQL=true				# Allow backing up mysql from the listfile
+BACKUP_COPIES=6					# Max number of backups to keep
 BACKUP_DAILY_ONLY_ONCE=true		# Allow only one backup per day
 BACKUP_REMOTELY=false    #Default is disabled, enable to backup to a remote windows host
 
@@ -21,11 +21,11 @@ BACKUP_REMOTELY=false    #Default is disabled, enable to backup to a remote wind
 workdir=/scripts/Centos-Backup-Script
 
 # backup source settings
-listfile=$workdir/lst/db.lst		# list of httpd databases to backup
-backuplistfile=$workdir/lst/folders.lst	# list of httpd databases to backup
+listfile=$workdir/lst/db.lst				# list of mysql database schemas to backup (1 per line)
+backuplistfile=$workdir/lst/folders.lst	# list of files to backup (1 per line)
 
 # SQL settings
-SQL_USER="user"				# MYSQL User
+SQL_USER="user"					# MYSQL User
 SQL_PASSWD="password"			# MYSQL Password
 
 # Remote settings (cifs/smb)
@@ -36,8 +36,9 @@ REMOTE_PASS="remotepass"
 
 
 # output settings
-tempdir=$workdir/temp			# temporary folder
-backupdir=$workdir/backup		# place for the .gz files
-filename=backup-$(date +%y%m%d).tgz	# backup .tgz file-name
+tempdir=$workdir/temp					# temporary folder
+backupdir=$workdir/backup				# place for the .gz files
+filename=backup-$(date +%Y%m%d).tgz	# backup .tgz file-name
+logdir=/var/log/backup                	# where to store log files
 unmountremote=true    #if remote backup enabled, unmount remote directory on finish
-showfsz=true				# Show df -h at end
+showfsz=true							# Show df -h at end

@@ -74,6 +74,14 @@ function deleteOldestBackup {
     fi;
 }
 
+function deleteOldBackups {
+    count=$(ls -1 $backupdir | wc -l)
+    for (( c=$count; c>=$1; c-- ))
+    do
+        deleteOldestBackup $c
+    done
+}
+
 function shiftBackup {
     if [ -d $backupdir/$1/ ] ; then
         printf "Moving Number $1 to Number $2.. ";
@@ -96,7 +104,7 @@ function shiftBackups {
 
 function dumpSQL {
     printf "Regenerating DB list file.. ";
-    if $WRITE_CHANGES ; then
+    if $WRITE_CHANGES && $BACKUP_MYSQL ; then
         mysql -u $SQL_USER -p$SQL_PASSWD -Bse 'show databases' > $listfile
         printf "Dumping SQL Databases.. ";
         cat $listfile | while read line
@@ -121,15 +129,15 @@ function createBackup {
     	    echo $d
     	    # take target directory to backup and replace / with _ for backup filename
     	    target_backup_file=$tempdir/${d//[\/]/_}$filename
-    	    if $WRITE_CHANGES ; then
-        	tar zcfP $target_backup_file $d > $workdir/log/$filename
+    	    if $WRITE_CHANGES && $BACKUP_USERFILES ; then
+                tar zcfP $target_backup_file $d > $logdir/$filename.log
     	    fi;
             done
             break
         done
     echo "databases"
-    if $WRITE_CHANGES ; then
-        tar zcfP $tempdir/db.$filename $tempdir/*.sql > $workdir/log/db.$filename
+    if $WRITE_CHANGES && $BACKUP_MYSQL ; then
+        tar zcfP $tempdir/db.$filename $tempdir/*.sql > $logdir/db.$filename.log
     fi;
 }
 
@@ -183,9 +191,9 @@ function startBackup {
         # step 1: check if and then mount remote backup host or skip
         remoteBackup
         createTemporaryFolder
-        # step 2: delete oldest backup
-        deleteOldestBackup $BACKUP_COPIES
-        # step 3: shift the middle snapshots(s) back by one, if they exist
+        # step 1: delete old backups
+        deleteOldBackups $BACKUP_COPIES
+        # step 2: shift the middle snapshots(s) back by one, if they exist
         shiftBackups
         # step 4: dump sql dbs
         dumpSQL
@@ -205,7 +213,10 @@ echo "Copyright(c) 2013 Backup script. - by Ravemaker & ET"
 # Load settings
 SCRIPTDIRECTORY=$(cd `dirname $0` && pwd)
 cd $SCRIPTDIRECTORY
-if [ -f settings.cfg ] ; then
+if [ -f /etc/backup.cfg ] ; then
+    echo "Loading settings..."
+    source /etc/backup.cfg
+elif [ -f settings.cfg ] ; then
     echo "Loading settings..."
     source settings.cfg
 else
