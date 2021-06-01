@@ -21,12 +21,13 @@ BACKUP_REMOTELY=false    #Default is disabled, enable to backup to a remote wind
 workdir=/scripts/Centos-Backup-Script
 
 # backup source settings
-listfile=$workdir/lst/db.lst				# list of mysql database schemas to backup (1 per line)
-backuplistfile=$workdir/lst/folders.lst	# list of files to backup (1 per line)
+dblistfile=$workdir/lst/db.lst				# list of mysql database schemas to backup (1 per line)
+backuplistfile=$workdir/lst/folders.lst	    # list of files to backup (1 per line)
 
 # SQL settings
 SQL_USER="user"					# MYSQL User
 SQL_PASSWD="password"			# MYSQL Password
+SQL_BACKUP_ALL=true             # If true, db.lst is overwritten with all MYSQL schemas, backing them all up
 
 # Remote settings (cifs/smb)
 REMOTE_HOST="192.168.0.7"
@@ -38,7 +39,7 @@ REMOTE_PASS="remotepass"
 # output settings
 tempdir=$workdir/temp					# temporary folder
 backupdir=$workdir/backup				# place for the .gz files
-filename=backup-$(date +%Y%m%d).tgz	# backup .tgz file-name
+filename=backup-$(date +%Y%m%d).tgz	    # backup .tgz file-name
 logdir=/var/log/backup                	# where to store log files
 unmountremote=true    #if remote backup enabled, unmount remote directory on finish
 showfsz=true							# Show df -h at end
