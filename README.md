@@ -39,9 +39,18 @@ Documentation
 
 ### Configure backups
 Create file inside the `/lst` folder called `folders.lst`.
-The script reads for directories/files to backup. Input list of all folders to backup in one row:
+The script reads for directories/files to backup. Input list of all folders to backup, one folder per line:
 
-		/var/log/ /var/www/ /usr/files/ /tftpd/
+		/var/log/
+        /var/www/
+        /usr/files/
+        /tftpd/
+        
+Create file inside the `/lst` folder called `db.lst`.
+The script reads for MySQL schemas to backup, if `SQL_BACKUP_ALL` is changed to `false`. Input list of all schemas to backup, one schema per line:
+
+		wordpress
+        phpmyadmin
 
 ### How backup files are saved
 all backups are saved by default inside your `workdir`/backup folder. each backup inside a seperate subdirectory.
