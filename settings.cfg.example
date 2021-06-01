@@ -20,16 +20,17 @@ BACKUP_DAILY_ONLY_ONCE=true		# Allow only one backup per day
 workdir=/scripts/Centos-Backup-Script
 
 # backup source settings
-listfile=$workdir/lst/db.lst				# list of mysql database schemas to backup (1 per line)
-backuplistfile=$workdir/lst/folders.lst	# list of files to backup (1 per line)
+dblistfile=$workdir/lst/db.lst				# list of mysql database schemas to backup (1 per line)
+backuplistfile=$workdir/lst/folders.lst	    # list of files to backup (1 per line)
 
 # SQL settings
 SQL_USER="user"					# MYSQL User
 SQL_PASSWD="password"			# MYSQL Password
+SQL_BACKUP_ALL=true             # If true, db.lst is overwritten with all MYSQL schemas, backing them all up
 
 # output settings
 tempdir=$workdir/temp					# temporary folder
 backupdir=$workdir/backup				# place for the .gz files
-filename=backup-$(date +%Y%m%d).tgz	# backup .tgz file-name
+filename=backup-$(date +%Y%m%d).tgz	    # backup .tgz file-name
 logdir=/var/log/backup                	# where to store log files
 showfsz=true							# Show df -h at end

@@ -14,9 +14,17 @@
 # --------------------------------------------------------
 
 function checkLists {
-    if ! [ -f $backuplistfile ] ; then
-        echo "Missing backup Listfile. create $backuplistfile"
-        exit
+    if $BACKUP_MYSQL ; then
+        if ! [ -f $dblistfile ] ; then
+            echo "Missing MySQL backup Listfile. create $dblistfile"
+            exit 1;
+        fi;
+    fi;
+    if $BACKUP_USERFILES ; then
+        if ! [ -f $backuplistfile ] ; then
+            echo "Missing backup Listfile. create $backuplistfile"
+            exit 1;
+        fi;
     fi;
 }
 
@@ -82,20 +90,21 @@ function shiftBackups {
 }
 
 function dumpSQL {
-    printf "Regenerating DB list file.. ";
     if $WRITE_CHANGES && $BACKUP_MYSQL ; then
-        mysql -u $SQL_USER -p$SQL_PASSWD -Bse 'show databases' > $listfile
-        printf "Dumping SQL Databases.. ";
-        cat $listfile | while read line
+        if $SQL_BACKUP_ALL ; then
+            printf "Regenerating DB list file.. ";
+            mysql -u $SQL_USER -p$SQL_PASSWD -Bse 'show databases' > $dblistfile
+        fi;
+        echo "Dumping SQL Databases.. ";
+        cat $dblistfile | while read line
         do
             dbname=$line
+            echo $dbname
             if [ $line != "information_schema" ] ;
             then
                 mysqldump --events --ignore-table=mysql.events -u $SQL_USER -p$SQL_PASSWD $dbname > $tempdir/$dbname.sql
             fi
         done
-        printf "Ok\n"
-    else printf "Skipping\n"
     fi;
 }
 
