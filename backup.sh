@@ -12,23 +12,39 @@
 # and create .tgz in a backup folder for each backup session.
 # root access required.
 # --------------------------------------------------------
+function printfQuiet {
+    if ! $QUIET ; then
+        printf "$*"
+    fi;
+}
+function printfQuietErr {
+    if $QUIET ; then
+        printf "$*"
+    fi;
+}
+function echoQuiet {
+    if ! $QUIET ; then
+        echo "$*"
+    fi;
+}
 function remoteBackup {
     if $BACKUP_REMOTELY ; then
-        printf "Remote backup host configured...  "
+        printfQuiet "Remote backup host configured...  "
         mountRemote
     else
-        echo "Skipping remote backup."
+        echoQuiet "Skipping remote backup."
     fi;
 }
 function mountRemote {
     if ! [[ $(mount -v | grep -i -e 'type smb' -e 'type cifs') ]] ; then
-        printf "Mounting remote backup host..."
+        printfQuiet "Mounting remote backup host..."
         mount -t cifs //$REMOTE_HOST/$REMOTE_SHARE $backupdir -o username=$REMOTE_USER,password=$REMOTE_PASS,nounix
         RESULT=$?
         if [ $RESULT == 0 ] ; then
-            printf "Ok.\n"
+            printfQuiet "Ok.\n"
         else
-            printf "Failed!\n"
+            printfQuiet "Failed!\n"
+            printfQuietErr "Mounting remote backup host...Failed!\n"
             exit $RESULT;
         fi;
     fi;
@@ -52,7 +68,7 @@ function checkLists {
 function checkBackupStatus {
     if $BACKUP_DAILY_ONLY_ONCE ; then
         if [ -f $backupdir/0/$filename ] ; then
-            echo "Backup already exist - try again tomorrow."
+            echoQuiet "Backup already exist - try again tomorrow."
             exit;
         fi;
     fi;
@@ -64,11 +80,11 @@ function checkBackupStatus {
 }
 
 function createTemporaryFolder {
-    printf "Creating temporary directory.. "
+    printfQuiet "Creating temporary directory.. "
     if $WRITE_CHANGES ; then
         mkdir $tempdir
-        printf "Ok\n"
-    else printf "Skipping\n"
+        printfQuiet "Ok\n"
+    else printfQuiet "Skipping\n"
     fi;
 }
 
@@ -76,7 +92,7 @@ function deleteOldestBackup {
     if $WRITE_CHANGES ; then
         if [ -d $backupdir/$1/ ] ;
         then
-            echo "Deleteing Number $1";
+            echoQuiet "Deleteing Number $1";
             rm -r -f $backupdir/$1/ ;
         fi;
     fi;
@@ -92,11 +108,11 @@ function deleteOldBackups {
 
 function shiftBackup {
     if [ -d $backupdir/$1/ ] ; then
-        printf "Moving Number $1 to Number $2.. ";
+        printfQuiet "Moving Number $1 to Number $2.. ";
         if $WRITE_CHANGES ; then
             mv $backupdir/$1 $backupdir/$2/ ;
-            printf "Ok\n"
-        else printf "Skipping\n"
+            printfQuiet "Ok\n"
+        else printfQuiet "Skipping\n"
         fi;
     fi;
 }
@@ -113,14 +129,14 @@ function shiftBackups {
 function dumpSQL {
     if $WRITE_CHANGES && $BACKUP_MYSQL ; then
         if $SQL_BACKUP_ALL ; then
-            printf "Regenerating DB list file.. ";
+            printfQuiet "Regenerating DB list file.. ";
             mysql -u $SQL_USER -p$SQL_PASSWD -Bse 'show databases' > $dblistfile
         fi;
-        echo "Dumping SQL Databases.. ";
+        echoQuiet "Dumping SQL Databases.. ";
         cat $dblistfile | while read line
         do
             dbname=$line
-            echo $dbname
+            echoQuiet $dbname
             if [ $line != "information_schema" ] ;
             then
                 mysqldump --events --ignore-table=mysql.events -u $SQL_USER -p$SQL_PASSWD $dbname > $tempdir/$dbname.sql
@@ -130,55 +146,56 @@ function dumpSQL {
 }
 
 function createBackup {
-    echo "Creating TGZ Backup file for..";
-    echo "directories:"
+    echoQuiet "Creating TGZ Backup file for..";
+    echoQuiet "directories:"
     cat $backuplistfile | while read line
     do
         for d in $line; do
-    	    echo $d
+    	    echoQuiet $d
     	    # take target directory to backup and replace / with _ for backup filename
     	    target_backup_file=$tempdir/${d//[\/]/_}$filename
     	    if $WRITE_CHANGES && $BACKUP_USERFILES ; then
                 tar zcfP $target_backup_file $d > $logdir/$filename.log
     	    fi;
-            done
-            break
         done
-    echo "databases"
+        break
+    done
+    echoQuiet "databases"
     if $WRITE_CHANGES && $BACKUP_MYSQL ; then
         tar zcfP $tempdir/db.$filename $tempdir/*.sql > $logdir/db.$filename.log
     fi;
 }
 
 function moveBackup {
-    printf "Move from temp to Backup Number 0.. ";
+    printfQuiet "Move from temp to Backup Number 0.. ";
     if $WRITE_CHANGES ; then
         mkdir $backupdir/0/
         #mv $tempdir/$filename $backupdir/0/ ;
         mv $tempdir/*$filename $backupdir/0/ ;
-        printf "Ok\n"
-    else printf "Skipping\n"
+        printfQuiet "Ok\n"
+    else printfQuiet "Skipping\n"
     fi;
 }
 
 function cleanBackup {
-    printf "Cleaning.. ";
+    printfQuiet "Cleaning.. ";
     if $WRITE_CHANGES ; then
         rm -r -f $tempdir/
-        printf "Ok\n"
-    else printf "Skipping\n"
+        printfQuiet "Ok\n"
+    else printfQuiet "Skipping\n"
     fi;
 }
 function remoteUnmount {
     if $BACKUP_REMOTELY ; then
         if $unmountremote ; then
-            printf "Unmounting remote host"
+            printfQuiet "Unmounting remote host..."
             umount $backupdir
             RESULT=$?
             if [ $RESULT == 0 ] ; then
-                printf "Ok.\n"
+                printfQuiet "Ok.\n"
             else
-                printf "Failed!\n"
+                printfQuiet "Failed!\n"
+                printfQuietErr "Unmounting remote host...Failed!\n"
                 exit $RESULT;
             fi;
         fi;
@@ -193,7 +210,7 @@ function startBackup {
         checkLists
         checkBackupStatus
         if $WRITE_CHANGES ; then
-            echo "Starting Backup..."
+            echoQuiet "Starting Backup..."
         else
             echo "Running in test mode..."
         fi;
@@ -218,15 +235,15 @@ function startBackup {
 }
 
 # Intro
-echo "Copyright(c) 2013 Backup script. - by Ravemaker & ET"
+echoQuiet "Copyright(c) 2013 Backup script. - by Ravemaker & ET"
 # Load settings
 SCRIPTDIRECTORY=$(cd `dirname $0` && pwd)
 cd $SCRIPTDIRECTORY
 if [ -f /etc/backup.cfg ] ; then
-    echo "Loading settings..."
+    echoQuiet "Loading settings..."
     source /etc/backup.cfg
 elif [ -f settings.cfg ] ; then
-    echo "Loading settings..."
+    echoQuiet "Loading settings..."
     source settings.cfg
 else
     echo "ERROR: Create settings.cfg (from settings.cfg.example)"
@@ -239,4 +256,4 @@ echo
 if $showfsz ; then
     df -h
 fi;
-echo "All done"
+echoQuiet "All done"
